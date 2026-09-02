@@ -66,7 +66,7 @@ var roles = map[string]Role{
 func parseSongs(data string) ([]Song, error) {
 	r := csv.NewReader(strings.NewReader(data))
 	r.FieldsPerRecord = 8
-	r.Comma = ';'
+	r.Comma = '\t'
 
 	records, err := r.ReadAll()
 	if err != nil {
