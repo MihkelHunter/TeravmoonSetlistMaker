@@ -1,3 +1,4 @@
+// Package spotify
 package spotify
 
 import (

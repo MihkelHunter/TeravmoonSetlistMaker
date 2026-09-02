@@ -2,6 +2,8 @@ package main
 
 import (
 	_ "embed"
+	"encoding/csv"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -9,6 +11,8 @@ import (
 	"math/rand/v2"
 	"os"
 	"sort"
+	"strconv"
+	"strings"
 	"time"
 
 	"TeravmoonSetlistMaker/spotify"
@@ -16,6 +20,9 @@ import (
 
 //go:embed header.txt
 var header string
+
+//go:embed songdata.csv
+var songData string
 
 type Song struct {
 	Title              string
@@ -27,7 +34,7 @@ type Song struct {
 	EnergyLevel        int    // 1–10
 	Tuning             string // Drop D, Standard, etc.
 	IsCloser           bool
-	Role               string
+	Role               Role
 	Score              float64
 }
 
@@ -45,6 +52,52 @@ const (
 	Filler   = "filler"
 )
 
+type Role string
+
+var roles = map[string]Role{
+	"Anthem":   Anthem,
+	"Opener":   Opener,
+	"Closer":   Closer,
+	"Breather": Breather,
+	"Encore":   Encore,
+	"Filler":   Filler,
+}
+
+func parseSongs(data string) ([]Song, error) {
+	r := csv.NewReader(strings.NewReader(data))
+	r.FieldsPerRecord = 8
+	r.Comma = ';'
+
+	records, err := r.ReadAll()
+	if err != nil {
+		return nil, fmt.Errorf("read songs: %w", err)
+	}
+	if len(records) < 2 {
+		return nil, errors.New("songs: no data rows")
+	}
+
+	songs := make([]Song, 0, len(records)-1)
+	for i, rec := range records[1:] {
+		line := i + 2 // 1-based, plus the header
+
+		min, e1 := strconv.Atoi(rec[2])
+		sec, e2 := strconv.Atoi(rec[3])
+		energy, e3 := strconv.Atoi(rec[4])
+		plays, e4 := strconv.Atoi(rec[5])
+		if err := errors.Join(e1, e2, e3, e4); err != nil {
+			return nil, fmt.Errorf("line %d: %w", line, err)
+		}
+
+		role, ok := roles[rec[7]]
+		if !ok {
+			return nil, fmt.Errorf("line %d: unknown role %q", line, rec[7])
+		}
+
+		songs = append(songs, NewSong(rec[0], rec[1], min, sec, energy, plays, rec[6], role))
+	}
+	return songs, nil
+}
+
 func NewSong(
 	title string,
 	album string,
@@ -54,7 +107,7 @@ func NewSong(
 	playedCount int,
 
 	tuning string,
-	role string,
+	role Role,
 ) Song {
 	return Song{
 		Title: title,
@@ -347,7 +400,15 @@ func main() {
 
 	flag.Parse()
 
-	songs := []Song{
+	songs := func() []Song {
+		s, err := parseSongs(songData)
+		if err != nil {
+			panic(err)
+		}
+		return s
+	}()
+
+	/*songs := []Song{
 		NewSong("Raha Seina Sees", "Tee", 4, 10, 3, 1134, "Drop D", Anthem),
 		NewSong("Narr", "Tee", 4, 35, 5, 582, "Standard", Breather),
 		NewSong("Vedur", "Tee", 4, 9, 8, 4098, "Standard", Opener),
@@ -373,7 +434,7 @@ func main() {
 		NewSong("Kondibluus", "Loodan, et Sul Pole Paha Meel", 3, 52, 1, 5820, "Standard", Filler),
 		NewSong("Hevikopter", "Loodan, et Sul Pole Paha Meel", 3, 51, 8, 3904, "Drop D", Filler),
 		NewSong("Magmapagan", "Loodan, et Sul Pole Paha Meel", 3, 56, 4, 2255, "Standard", Filler),
-	}
+	}*/
 
 	// ---- optional Spotify overlay ----
 
