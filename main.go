@@ -408,34 +408,6 @@ func main() {
 		return s
 	}()
 
-	/*songs := []Song{
-		NewSong("Raha Seina Sees", "Tee", 4, 10, 3, 1134, "Drop D", Anthem),
-		NewSong("Narr", "Tee", 4, 35, 5, 582, "Standard", Breather),
-		NewSong("Vedur", "Tee", 4, 9, 8, 4098, "Standard", Opener),
-		NewSong("Olla või Minna", "Tee", 3, 50, 3, 764, "Standard", Breather),
-		NewSong("Kodukäija", "Tee", 3, 24, 7, 5552, "Standard", Anthem),
-		NewSong("Paanika", "Tee", 4, 27, 9, 397, "Drop D", Closer),
-		NewSong("Kordan Kordan Korrutan", "Tee", 4, 38, 6, 296, "Standard", Anthem),
-		NewSong("Maasikas", "Tee", 4, 3, 6, 1369, "Standard", Anthem),
-		NewSong("Kuhu", "Tee", 3, 0, 5, 5589, "Standard", Anthem),
-		NewSong("Äratus", "Tee", 3, 41, 9, 275, "Drop D", Anthem),
-		NewSong("Ajupesumasin", "Tee", 3, 31, 9, 3791, "Drop D", Anthem),
-		NewSong("Peremees", "Tee", 2, 59, 9, 1786, "Drop D", Opener),
-		NewSong("Tee", "Tee", 8, 39, 6, 312, "Standard", Closer),
-		NewSong("Probleemid ja Pelmeenid", "Tee", 3, 26, 6, 5663, "Standard", Anthem),
-		NewSong("Suured Mootorid", "Loodan, et Sul Pole Paha Meel", 3, 40, 5, 6857, "Standard", Opener),
-		NewSong("Varjude Mäng", "Loodan, et Sul Pole Paha Meel", 4, 38, 7, 5846, "Standard", Opener),
-		NewSong("Apokalüpsilehmad", "Loodan, et Sul Pole Paha Meel", 3, 35, 8, 4030, "Standard", Encore),
-		NewSong("Voolukaamel", "Loodan, et Sul Pole Paha Meel", 3, 21, 2, 3478, "Standard", Filler),
-		NewSong("Tõmbame Sae Käima", "Loodan, et Sul Pole Paha Meel", 3, 55, 6, 6857, "Standard", Closer),
-		NewSong("Põrgurattur", "Loodan, et Sul Pole Paha Meel", 3, 3, 5, 5800, "Standard", Encore),
-		NewSong("Kiirus", "Loodan, et Sul Pole Paha Meel", 3, 7, 5, 3061, "Standard", Filler),
-		NewSong("Haige", "Loodan, et Sul Pole Paha Meel", 3, 14, 3, 10384, "Standard", Anthem),
-		NewSong("Kondibluus", "Loodan, et Sul Pole Paha Meel", 3, 52, 1, 5820, "Standard", Filler),
-		NewSong("Hevikopter", "Loodan, et Sul Pole Paha Meel", 3, 51, 8, 3904, "Drop D", Filler),
-		NewSong("Magmapagan", "Loodan, et Sul Pole Paha Meel", 3, 56, 4, 2255, "Standard", Filler),
-	}*/
-
 	// ---- optional Spotify overlay ----
 
 	if *useSpotify {
