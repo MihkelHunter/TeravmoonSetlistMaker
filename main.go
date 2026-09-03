@@ -21,7 +21,7 @@ import (
 //go:embed header.txt
 var header string
 
-//go:embed songdata.csv
+//go:embed songdata.tsv
 var songData string
 
 type Song struct {
